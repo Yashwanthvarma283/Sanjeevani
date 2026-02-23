@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanjeevani Health – Intelligent Hospital Management</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"DM Sans"', 'sans-serif'],
+            serif: ['"DM Serif Display"', 'serif'],
+          },
+          colors: {
+            royal: {
+              50:  '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#1d4ed8',
+              700: '#1e40af',
+              800: '#1e3a8a',
+              900: '#1e3270',
+            },
+            emerald: {
+              50:  '#ecfdf5',
+              100: '#d1fae5',
+              300: '#6ee7b7',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              800: '#065f46',
+            },
+          },
+          boxShadow: {
+            card: '0 4px 24px 0 rgba(30,64,175,0.07)',
+            'card-hover': '0 8px 40px 0 rgba(30,64,175,0.14)',
+            glow: '0 0 32px 0 rgba(16,185,129,0.18)',
+          },
+          backgroundImage: {
+            'hero-grid': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231e40af' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: #f0f9ff; color: #0f172a; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #e0f7ff; }
+    ::-webkit-scrollbar-thumb { background: #00b8d9; border-radius: 4px; }
+
+    /* NAV */
+    .glass-nav {
+      background: #003D52;
+      border-bottom: 3px solid #00C8F0;
+    }
+    .nav-logo-icon {
+      background: #00C8F0;
+      border-radius: 10px;
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-logo-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem; color: #ffffff; letter-spacing: -0.01em;
+    }
+    .nav-logo-text span { color: #00C8F0; }
+
+    .nav-pill-wrap {
+      background: #002638;
+      border-radius: 999px;
+      padding: 4px 6px;
+      display: flex; align-items: center; gap: 2px;
+      border: 1px solid #005570;
+    }
+    .nav-link {
+      color: #7dd3ea;
+      font-size: 0.8125rem; font-weight: 500;
+      padding: 6px 14px; border-radius: 999px;
+      transition: background 0.18s, color 0.18s;
+      letter-spacing: 0.01em; white-space: nowrap;
+    }
+    .nav-link:hover { background: #005570; color: #ffffff; }
+    .nav-link.active { background: #00C8F0; color: #002638; font-weight: 700; }
+
+    .nav-btn-signin {
+      background: transparent;
+      border: 1.5px solid #00C8F0;
+      color: #00C8F0;
+      font-size: 0.8125rem; font-weight: 600;
+      padding: 7px 18px; border-radius: 8px;
+      transition: background 0.18s, color 0.18s; white-space: nowrap;
+    }
+    .nav-btn-signin:hover { background: #00C8F0; color: #002638; }
+
+    .nav-btn-cta {
+      background: #00C8F0;
+      color: #002638;
+      font-size: 0.8125rem; font-weight: 800;
+      padding: 8px 20px; border-radius: 8px;
+      display: inline-flex; align-items: center; gap: 7px;
+      transition: background 0.18s, transform 0.18s; white-space: nowrap;
+      box-shadow: 0 4px 16px #00C8F050;
+    }
+    .nav-btn-cta:hover { background: #00a8cc; transform: translateY(-1px); }
+
+    .nav-divider { width: 1px; height: 18px; background: #005570; margin: 0 4px; }
+
+    .mobile-menu-bg {
+      background: #002638;
+      border-top: 2px solid #00C8F0;
+    }
+    .mobile-nav-link {
+      color: #7dd3ea; font-size: 0.875rem; font-weight: 500;
+      padding: 9px 14px; border-radius: 8px;
+      display: flex; align-items: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .mobile-nav-link:hover { background: #005570; color: #ffffff; }
+
+    .menu-toggle-btn {
+      background: #002638; border: 1px solid #005570;
+      border-radius: 8px; padding: 7px; color: #00C8F0;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .menu-toggle-btn:hover { background: #00C8F0; color: #002638; }
+
+    /* GRADIENT TEXT */
+    .gradient-text {
+      background: linear-gradient(135deg, #0077A8 0%, #00C8F0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* HERO */
+    .hero-badge {
+      background: #e0f7ff; border: 1px solid #00C8F0;
+      color: #005570; display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 6px 16px; border-radius: 999px;
+    }
+
+    /* BUTTONS */
+    .btn-primary {
+      background: #00C8F0; color: #002638;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px #00C8F050;
+    }
+    .btn-primary:hover { background: #00a8cc; transform: translateY(-2px); box-shadow: 0 8px 28px #00C8F060; }
+
+    .btn-secondary {
+      border: 1.5px solid #00C8F0; color: #005570;
+      transition: all 0.22s;
+    }
+    .btn-secondary:hover { background: #e0f7ff; border-color: #0077A8; color: #003D52; }
+
+    /* STATS */
+    .stat-item::after {
+      content: '';
+      position: absolute; right: 0; top: 20%; bottom: 20%;
+      width: 1px; background: #b3eaf7;
+    }
+    .stat-item:last-child::after { display: none; }
+
+    /* MODULE CARDS */
+    .module-card {
+      transition: transform 0.28s cubic-bezier(.22,.68,0,1.2), box-shadow 0.28s, border-color 0.28s;
+      border: 1.5px solid #bfe9f7;
+    }
+    .module-card:hover { transform: translateY(-6px); box-shadow: 0 8px 40px #00C8F025; border-color: #00C8F0; }
+    .module-card:hover .card-icon-wrap { background: #00C8F0; box-shadow: 0 4px 20px #00C8F050; }
+    .module-card:hover .card-icon-wrap svg { color: #002638 !important; }
+    .module-card:hover .learn-more { color: #0077A8; gap: 6px; }
+
+    .card-icon-wrap { transition: background 0.28s, box-shadow 0.28s; background: #e0f7ff; }
+
+    /* AI SECTION */
+    .ai-section { background: #001E2B; }
+    .ai-glow { box-shadow: 0 0 80px 20px #00C8F025, 0 0 140px 40px #0077A815; }
+
+    /* LEARN MORE */
+    .learn-more {
+      display: inline-flex; align-items: center; gap: 2px;
+      font-size: 0.82rem; font-weight: 600; color: #64748b;
+      transition: color 0.22s, gap 0.22s; letter-spacing: 0.02em;
+    }
+
+    /* FOOTER */
+    .footer-wrap {
+      background: #001E2B;
+      border-top: 3px solid #00C8F0;
+    }
+    .footer-divider { border-color: #003D52; }
+    .footer-link:hover { color: #00C8F0 !important; }
+    .social-icon-btn {
+      background: #002638; border: 1px solid #005570;
+      border-radius: 8px; width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .social-icon-btn:hover { border-color: #00C8F0; background: #00C8F015; }
+    .footer-credit-icon { color: #00C8F0; }
+    .footer-credit-text { color: #00C8F0; font-weight: 600; }
+
+    /* ANIMATIONS */
+    @keyframes countUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .stat-number { animation: countUp 0.7s ease forwards; }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.8s ease both; }
+    .delay-1 { animation-delay: 0.15s; }
+    .delay-2 { animation-delay: 0.30s; }
+    .delay-3 { animation-delay: 0.45s; }
+    .delay-4 { animation-delay: 0.60s; }
+  </style>
+</head>
+
+<body class="antialiased">
+
+<header class="glass-nav fixed top-0 inset-x-0 z-50">
+  <nav class="max-w-7xl mx-auto px-5 sm:px-8 h-[62px] flex items-center justify-between gap-4">
+
+    <a href="#" class="flex items-center gap-2.5 flex-shrink-0">
+      <div class="nav-logo-icon">
+        <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+      </div>
+      <span class="nav-logo-text">Sanjeevani <span>Health</span></span>
+    </a>
+
+    <div class="hidden lg:flex items-center">
+      <div class="nav-pill-wrap">
+        {% set nav_links = [
+          ('Patient', '#patient'),
+          ('Doctors', '#doctors'),
+          ('Appointments', '#appointments'),
+          ('Pharmacy', '#pharmacy'),
+          ('Lab', '#lab'),
+          ('Billing', '#billing'),
+          ('Analytics', '#analytics'),
+          ('AI Edge', '#ai-edge'),
+        ] %}
+        {% for label, href in nav_links %}
+        <a href="{{ href }}" class="nav-link">{{ label }}</a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a href="/login"
+         class="nav-btn-signin hidden sm:inline-flex">
+        Sign In
+      </a>
+      <div class="nav-divider hidden sm:block"></div>
+      <a href="/book-demo"
+         class="nav-btn-cta">
+        <i data-lucide="calendar-check" class="w-4 h-4"></i>
+        Book a Demo
+      </a>
+      <button id="menuBtn" class="menu-toggle-btn lg:hidden">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobileMenu" class="hidden lg:hidden mobile-menu-bg px-5 pb-4">
+    <ul class="grid grid-cols-2 gap-1 pt-3">
+      {% for label, href in nav_links %}
+      <li>
+        <a href="{{ href }}" class="mobile-nav-link">{{ label }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</header>
+
+<section class="relative min-h-screen flex items-center pt-16 overflow-hidden" style="background:#f0f9ff;">
+
+  <div class="absolute -top-32 -right-32 w-[600px] h-[600px] rounded-full" style="background:radial-gradient(circle,#00C8F0,transparent 70%);opacity:0.07;pointer-events:none;"
+       ></div>
+  <div class="absolute bottom-0 -left-32 w-[500px] h-[500px] rounded-full" style="background:radial-gradient(circle,#00C8F0,transparent 70%);opacity:0.05;pointer-events:none;"
+       ></div>
+
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-24 w-full flex flex-col items-center text-center max-w-3xl mx-auto">
+
+    <div>
+
+      <div class="fade-up" style="display:inline-flex;align-items:center;gap:8px;background:#e0f7ff;border:1px solid #00C8F0;color:#005570;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:6px 16px;border-radius:999px;margin-bottom:2rem;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#00C8F0;animation:blink 1.4s infinite;display:inline-block;"></span>
+        Powered by Gen-AI · Now Live
+      </div>
+
+      <h1 class="fade-up delay-1 font-serif text-4xl sm:text-5xl xl:text-6xl leading-tight text-slate-900 mb-6 text-center">
+        Sanjeevani Health:<br/>
+        <em class="gradient-text not-italic">The Intelligent Heart</em><br/>
+        of Your Hospital.
+      </h1>
+
+      <p class="fade-up delay-2 text-lg leading-relaxed max-w-xl mb-10 mx-auto" style="color:#005570;">
+        A one-stop ecosystem for modern hospitals — manage
+        <strong style="color:#001E2B;font-weight:600;">patients, doctors, labs, pharmacy &amp; billing</strong>
+        with Gen-AI precision.
+        {% if hospital_name %}
+          Currently serving <span class="text-slate-800 font-semibold">{{ hospital_name }}</span>.
+        {% endif %}
+      </p>
+
+      <div class="fade-up delay-3 flex flex-wrap items-center justify-center gap-4">
+        <a href="/dashboard"
+           class="btn-primary text-white font-semibold px-7 py-3.5 rounded-xl flex items-center gap-2.5 text-base">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+          Get Started Free
+        </a>
+        <a href="#modules"
+           class="btn-secondary font-semibold px-7 py-3.5 rounded-xl flex items-center gap-2.5 text-base">
+          <i data-lucide="grid-3x3" class="w-5 h-5 "></i>
+          Explore Modules
+        </a>
+      </div>
+
+      <div class="fade-up delay-4 flex flex-wrap items-center justify-center gap-6 mt-10">
+        {% set trust_items = [
+          ('shield-check', 'HIPAA Compliant'),
+          ('zap', '99.9% Uptime'),
+          ('cloud', 'Cloud-Native'),
+        ] %}
+        {% for icon, label in trust_items %}
+        <div class="flex items-center gap-2 text-slate-600 text-sm">
+          <i data-lucide="{{ icon }}" style="width:16px;height:16px;color:#00C8F0;"></i>
+          {{ label }}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section style="background:#e0f7ff; border-top:1px solid #b3eaf7; border-bottom:1px solid #b3eaf7; z-index:10; position:relative;">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 py-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
+    {% set stats = [
+      ('bed', 'Real-time Bed Tracking', beds_total|default('500+'), 'Across all wards', 'royal'),
+      ('file-check-2', 'Automated Billing', bills_processed|default('50,000+'), 'GST invoices generated', 'emerald'),
+      ('brain-circuit', 'AI Insights Generated', ai_insights|default('1,200+'), 'Diagnostic suggestions/day', 'royal'),
+    ] %}
+    {% for icon, label, value, sub, color in stats %}
+    <div class="stat-item relative flex items-center gap-5 px-4 group cursor-default">
+      <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300
+                  group-hover:scale-110
+                  {% if color == 'emerald' %}bg-cyan-50" style="background:#e0f7ff"{% else %}bg-cyan-50" style="background:#e0f7ff{% endif %}">
+        <i data-lucide="{{ icon }}"
+           class="w-7 h-7
+                  {% if color == 'emerald' %}" style="color:#00C8F0"{% else %}" style="color:#0077A8{% endif %}"></i>
+      </div>
+      <div>
+        <div class="stat-number text-3xl font-bold font-serif tracking-tight" style="color:#003D52;">{{ value }}</div>
+        <div class="text-sm font-semibold" style="color:#003D52;">{{ label }}</div>
+        <div class="text-xs" style="color:#0077A8;">{{ sub }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="modules" class="py-24" style="background:#f0f9ff;">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-1.5 rounded-full mb-5 tracking-wide uppercase" style="background:#e0f7ff; border:1px solid #00C8F0; color:#005570;">
+        <i data-lucide="grid-3x3" class="w-3.5 h-3.5"></i>
+        8 Core Modules
+      </div>
+      <h2 class="font-serif text-3xl sm:text-4xl mb-4" style="color:#001E2B;">
+        Everything Your Hospital Needs,<br/>
+        <span class="gradient-text">Unified in One Platform.</span>
+      </h2>
+      <p class="max-w-xl mx-auto text-base leading-relaxed" style="color:#005570;">
+        From patient intake to discharge — every workflow is intelligently connected
+        and accessible in real time.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+      {#
+        Jinja2 loop: `modules` is a list of dicts passed from the FastAPI view.
+        Fallback to static data if not provided.
+      #}
+      {% set modules = modules if modules is defined else [
+        {
+          'id': 'patient',
+          'icon': 'users',
+          'title': 'Patient Management',
+          'description': 'End-to-end patient lifecycle — registration, EMR, vitals, history, and discharge summaries.',
+          'badge': 'Core',
+          'badge_color': 'royal',
+          'count': patient_count | default('12,450'),
+          'count_label': 'Active Records',
+          'href': '#patient',
+        },
+        {
+          'id': 'doctors',
+          'icon': 'stethoscope',
+          'title': 'Doctor Portal',
+          'description': 'Dedicated dashboards for doctors with appointment queues, patient charts, and e-prescriptions.',
+          'badge': 'Portal',
+          'badge_color': 'emerald',
+          'count': doctor_count | default('86'),
+          'count_label': 'Registered Doctors',
+          'href': '#doctors',
+        },
+        {
+          'id': 'appointments',
+          'icon': 'calendar-check-2',
+          'title': 'Appointment Engine',
+          'description': 'Intelligent scheduling with OPD/IPD slots, automated reminders, and no-show tracking.',
+          'badge': 'Smart',
+          'badge_color': 'royal',
+          'count': appointments_today | default('340'),
+          'count_label': "Today's Bookings",
+          'href': '#appointments',
+        },
+        {
+          'id': 'bed',
+          'icon': 'bed',
+          'title': 'Bed & Ward',
+          'description': 'Real-time bed availability heatmap across ICU, general, and isolation wards.',
+          'badge': 'Live',
+          'badge_color': 'emerald',
+          'count': beds_available | default('42'),
+          'count_label': 'Beds Available',
+          'href': '#bed',
+        },
+        {
+          'id': 'pharmacy',
+          'icon': 'pill',
+          'title': 'Pharmacy Pro',
+          'description': 'Drug inventory with expiry alerts, automated reorders, prescription integration, and billing.',
+          'badge': 'Inventory',
+          'badge_color': 'royal',
+          'count': drug_skus | default('2,100+'),
+          'count_label': 'Drug SKUs Managed',
+          'href': '#pharmacy',
+        },
+        {
+          'id': 'lab',
+          'icon': 'flask-conical',
+          'title': 'Lab Management',
+          'description': 'Sample tracking, LIMS integration, automated report delivery, and TAT monitoring.',
+          'badge': 'LIMS',
+          'badge_color': 'emerald',
+          'count': tests_today | default('580'),
+          'count_label': "Tests Today",
+          'href': '#lab',
+        },
+        {
+          'id': 'billing',
+          'icon': 'receipt-indian-rupee',
+          'title': 'Billing & GST',
+          'description': 'Automated GST invoicing, UPI/card payments, insurance claims, and revenue reporting.',
+          'badge': 'GST Ready',
+          'badge_color': 'royal',
+          'count': revenue_today | default('₹12.4L'),
+          'count_label': "Revenue Today",
+          'href': '#billing',
+        },
+        {
+          'id': 'analytics',
+          'icon': 'bar-chart-3',
+          'title': 'Admin Analytics',
+          'description': 'Executive dashboards with occupancy rates, revenue trends, staff KPIs, and forecasting.',
+          'badge': 'Insights',
+          'badge_color': 'emerald',
+          'count': reports_generated | default('200+'),
+          'count_label': 'Reports/Month',
+          'href': '#analytics',
+        },
+      ] %}
+
+      {% for m in modules %}
+      <a id="{{ m.id }}" href="{{ m.href }}"
+         class="module-card" style="background:#ffffff;border-radius:1rem;padding:1.5rem;display:flex;flex-direction:column;gap:1rem;text-decoration:none;" p-6 shadow-card flex flex-col gap-4 cursor-pointer group no-underline">
+
+        <div class="flex items-start justify-between">
+          <div class="card-icon-wrap" style="width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#e0f7ff;">
+            <i data-lucide="{{ m.icon }}"
+               class="w-6 h-6
+                      {% if m.badge_color == 'emerald' %}" style="color:#00C8F0"{% else %}" style="color:#0077A8{% endif %}">
+            </i>
+          </div>
+          <span class="text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full
+                       {% if m.badge_color == 'emerald' %}" style="background:#e0f7ff;color:#005570;" {% else %}" style="background:#e0f7ff;color:#005570;{% endif %}">
+            {{ m.badge }}
+          </span>
+        </div>
+
+        <div>
+          <h3 class="text-base font-bold text-slate-800 mb-1.5 group-hover: transition-colors">
+            {{ m.title }}
+          </h3>
+          <p class="text-sm leading-relaxed" style="color:#4a7a8a;">{{ m.description }}</p>
+        </div>
+
+        <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div>
+            <div class="text-xl font-bold font-serif" style="color:#001E2B;">{{ m.count }}</div>
+            <div class="text-xs" style="color:#0077A8;">{{ m.count_label }}</div>
+          </div>
+          <span class="learn-more">
+            Learn More
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </span>
+        </div>
+
+      </a>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+<section id="ai-edge" class="ai-section py-24 relative overflow-hidden">
+
+  <div class="absolute inset-0 pointer-events-none overflow-hidden">
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-20"
+         style="background:radial-gradient(circle,#00C8F0,transparent 70%);filter:blur(40px);"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-15"
+         style="background:radial-gradient(circle,#005570,transparent 70%);filter:blur(50px);"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
+
+    <div class="text-center mb-16">
+      <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid #00C8F040;color:#00C8F0;font-size:0.7rem;font-weight:700;padding:6px 16px;border-radius:999px;margin-bottom:1.5rem;letter-spacing:0.1em;text-transform:uppercase;background:#00C8F010;">
+        <span style="width:8px;height:8px;border-radius:50%;background:#00C8F0;animation:blink 1.4s infinite;" class="animate-pulse"></span>
+        Gen-AI Powered
+      </div>
+      <h2 class="font-serif text-3xl sm:text-4xl mb-4" style="color:#ffffff;">
+        The <em class="not-italic style="color:#00C8F0;">Intelligent Edge</em> That Sets<br/>
+        Sanjeevani Apart.
+      </h2>
+      <p class="text-slate-400 max-w-lg mx-auto text-base">
+        Embedded AI accelerates clinical decisions, reduces documentation burden,
+        and surfaces insights doctors can act on — instantly.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+      {% set ai_features = [
+        {
+          'icon': 'brain-circuit',
+          'title': 'AI Symptom Sorter',
+          'description': 'Patients describe symptoms in natural language. Sanjeevani\'s LLM triage engine suggests probable diagnoses, recommended departments, and urgency level — before the doctor even enters the room.',
+          'pills': ['ICD-10 Mapping', 'NLP Powered', 'Multi-lingual'],
+          'stat': ai_triage_count | default('1,200+'),
+          'stat_label': 'Triages/day',
+        },
+        {
+          'icon': 'file-heart',
+          'title': 'Automated EHR Summaries',
+          'description': 'Sanjeevani auto-generates discharge summaries, progress notes, and referral letters from structured clinical data — saving each doctor 45+ minutes per day on documentation.',
+          'pills': ['Discharge Notes', 'Referral Letters', 'ABDM Ready'],
+          'stat': ehr_summaries | default('850+'),
+          'stat_label': 'Summaries generated today',
+        },
+      ] %}
+
+      {% for feat in ai_features %}
+      <div class="rounded-2xl p-8 relative group transition-all duration-300" style="background:#00101A;border:1px solid #003D52;" onmouseover="this.style.borderColor='#00C8F0'" onmouseout="this.style.borderColor='#003D52'"
+           style="background: rgba(255,255,255,0.04); backdrop-filter: blur(12px);">
+
+        <div style="position:absolute;inset:0;border-radius:16px;box-shadow:inset 0 0 60px #00C8F010;opacity:0;transition:opacity 0.4s;pointer-events:none;" class="group-hover:opacity-100"></div>
+
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6
+                    bg-gradient-to-br shadow-glow" style="background:#00C8F0;"">
+          <i data-lucide="{{ feat.icon }}" style="width:26px;height:26px;color:#00C8F0;"></i>
+        </div>
+
+        <h3 class="text-xl font-bold mb-3" style="color:#ffffff;">{{ feat.title }}</h3>
+        <p class="text-sm leading-relaxed mb-6" style="color:#7dd3ea;">{{ feat.description }}</p>
+
+        <div class="flex flex-wrap gap-2 mb-6">
+          {% for pill in feat.pills %}
+          <span class="text-xs font-semibold px-3 py-1 rounded-full
+                       " style="background:#00C8F015; color:#00C8F0; border:1px solid #00C8F040;">
+            {{ pill }}
+          </span>
+          {% endfor %}
+        </div>
+
+        <div class="pt-6 flex items-center gap-3" style="border-top:1px solid #003D52;">
+          <div class="text-3xl font-bold font-serif" style="color:#00C8F0;">{{ feat.stat }}</div>
+          <div class="text-sm" style="color:#7dd3ea;">{{ feat.stat_label }}</div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+
+    <div class="text-center mt-14">
+      <a href="{{ '#' }}"
+         class="inline-flex items-center gap-2.5 text-white font-semibold px-8 py-3.5 rounded-xl
+                transition-all duration-250 text-base" style="border:1px solid #00C8F0; background:#00C8F015; color:#00C8F0;">
+        <i data-lucide="sparkles" style="width:20px;height:20px;color:#00C8F0;"></i>
+        See the AI in Action
+        <i data-lucide="arrow-right" style="width:16px;height:16px;color:#00C8F0;"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% if testimonials is defined and testimonials %}
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="text-center mb-12">
+      <h2 class="font-serif text-3xl text-slate-900">Trusted by Hospital Leaders</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      {% for t in testimonials %}
+      <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6">
+        <div class="flex items-center gap-1 mb-4">
+          {% for _ in range(5) %}
+          <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-yellow-400"></i>
+          {% endfor %}
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mb-4">"{{ t.quote }}"</p>
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full  flex items-center justify-center
+                      text-slate-800 font-bold text-sm">
+            {{ t.name[0] }}
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-slate-800">{{ t.name }}</div>
+            <div class="text-xs text-slate-500">{{ t.role }}, {{ t.hospital }}</div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<footer class="footer-wrap" style="color:#7dd3ea;">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 pt-16 pb-8">
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-10 pb-12 footer-divider" style="border-bottom:1px solid #003D52;">
+
+      <div class="col-span-2 sm:col-span-4 lg:col-span-2">
+        <div class="flex items-center gap-2.5 mb-4">
+          <div style="width:34px;height:34px;border-radius:8px;background:#00C8F0;display:flex;align-items:center;justify-content:center;">
+            <i data-lucide="activity" style="width:16px;height:16px;color:#001E2B;"></i>
+          </div>
+          <span class="font-serif text-lg" style="color:#ffffff;">Sanjeevani <span style="color:#00C8F0;">Health</span></span>
+        </div>
+        <p class="text-sm leading-relaxed max-w-xs">
+          <span style="color:#7dd3ea;">The intelligent hospital management ecosystem built for modern Indian healthcare — from tier-1 hospitals to district care centres.</span>
+        </p>
+
+        <div class="flex items-center gap-3 mt-6">
+          {% for icon in ['twitter', 'linkedin', 'github', 'youtube'] %}
+          <a href="#" class="social-icon-btn">
+            <i data-lucide="{{ icon }}" style="width:16px;height:16px;color:#7dd3ea;"></i>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      {% set footer_links = {
+        'Platform': [
+          ('Patient Management', '#patient'),
+          ('Doctor Portal', '#doctors'),
+          ('Appointments', '#appointments'),
+          ('Bed & Ward', '#bed'),
+        ],
+        'Solutions': [
+          ('Pharmacy Pro', '#pharmacy'),
+          ('Lab Management', '#lab'),
+          ('Billing & GST', '#billing'),
+          ('Admin Analytics', '#analytics'),
+        ],
+        'Company': [
+          ('About Us', '/about'),
+          ('Careers', '/careers'),
+          ('Blog', '/blog'),
+          ('Contact', '/contact'),
+        ],
+      } %}
+      {% for col_title, links in footer_links.items() %}
+      <div>
+        <h4 class="text-sm font-semibold mb-4" style="color:#00C8F0; letter-spacing:0.06em; text-transform:uppercase;">{{ col_title }}</h4>
+        <ul class="space-y-2.5">
+          {% for label, href in links %}
+          <li>
+            <a href="{{ href }}"
+               class="text-sm footer-link hover:translate-x-0.5 transition-all inline-block" style="color:#7dd3ea;">
+              {{ label }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+
+    </div>
+
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style="color:#7dd3ea; border-top:1px solid #003D52;">
+      <div>
+        © {{ current_year | default('2025') }} Sanjeevani Health. All rights reserved.
+        &nbsp;·&nbsp;
+        <a href="/privacy" style="color:#7dd3ea;" class="hover:underline">Privacy Policy</a>
+        &nbsp;·&nbsp;
+        <a href="/terms" style="color:#7dd3ea;" class="hover:underline">Terms of Service</a>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <i data-lucide="zap" style="width:14px;height:14px;color:#00C8F0;"></i>
+        Powered by <span class="footer-credit-text ml-1">Sanjeevani Tech</span>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+
+  lucide.createIcons();
+
+  const btn  = document.getElementById('menuBtn');
+  const menu = document.getElementById('mobileMenu');
+  btn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+    const icon = btn.querySelector('[data-lucide]');
+    icon.setAttribute('data-lucide', menu.classList.contains('hidden') ? 'menu' : 'x');
+    lucide.createIcons();
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.animationDelay = `${i * 0.06}s`;
+        entry.target.classList.add('fade-up');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.module-card, .stat-item').forEach(el => {
+    el.style.opacity = '0';
+    observer.observe(el);
+  });
+
+  const header = document.querySelector('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+      header.style.boxShadow = '0 4px 32px rgba(30,64,175,0.10)';
+    } else {
+      header.style.boxShadow = 'none';
+    }
+  });
+
+  function animateCounter(el, target, suffix = '') {
+    const isFloat = target.toString().includes('.');
+    const raw = parseFloat(target);
+    let start = 0;
+    const duration = 1600;
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = isFloat ? (eased * raw).toFixed(1) : Math.floor(eased * raw);
+      el.textContent = current + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const num = entry.target.querySelector('.stat-number');
+        if (num && !num.dataset.animated) {
+          num.dataset.animated = 'true';
+          const raw = num.textContent.trim();
+          const match = raw.match(/([\d,.]+)(.*)/);
+          if (match) {
+            const val = parseFloat(match[1].replace(/,/g, ''));
+            animateCounter(num, val, match[2]);
+          }
+        }
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('.stat-item').forEach(el => statObserver.observe(el));
+</script>
+
+</body>
+</html>

@@ -1,8 +1,6 @@
 from fastapi import FastAPI
+from routes.user_credentials import router
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {"message": "Sanjeevani AI Service is from arun's laptop"}
-    # Final Git verification test
+app.include_router(router)
