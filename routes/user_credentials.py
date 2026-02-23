@@ -14,3 +14,8 @@ def landing_page(request:Request):
 def signup_page():
     return "this is from signup page"
 
+
+
+@router.get("/user/login")
+def login_page(request:Request):
+    return "from login page"
