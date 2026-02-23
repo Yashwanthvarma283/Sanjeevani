@@ -10,3 +10,8 @@ def landing_page(request:Request):
     return templates.TemplateResponse("index.html",{
         "request":request
     })
+
+
+@router.get("/user/login")
+def login_page(request:Request):
+    return "from login page"
