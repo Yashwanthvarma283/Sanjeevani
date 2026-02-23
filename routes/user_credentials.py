@@ -10,6 +10,10 @@ def landing_page(request:Request):
     return templates.TemplateResponse("index.html",{
         "request":request
     })
+@router.get("/user/signup")
+def signup_page():
+    return "this is from signup page"
+
 
 
 @router.get("/user/login")
